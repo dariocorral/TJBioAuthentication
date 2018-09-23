@@ -109,7 +109,11 @@ extension TJBioAuthenticator {
         context.evaluatePolicy(policy, localizedReason: reason) { (success, err) in
             if success { successBlock() }
             else {
-                let errorType = TJAuthErrors(error: err as! LAError)
+                 guard let errorType = TJAuthErrors(error: err as! LAError) else{
+                    print("Error TJAUTHError")
+                    failureBlock(.other)
+                    return
+                }
                 failureBlock(errorType)
             }
         }
