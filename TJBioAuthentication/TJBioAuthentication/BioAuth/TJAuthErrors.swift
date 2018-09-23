@@ -33,32 +33,23 @@ public enum TJAuthErrors {
     
     case appCancel, failed, userCancel, userFallback, systemCancel, passcodeNotSet, biometryNotEnrolled, biometryLockedout, invalidContext , biometryNotAvailable,other
     
-    public static func `init`(error: LAError) -> TJAuthErrors {
-        switch Int32(error.errorCode) {
-            
-        case kLAErrorAuthenticationFailed:
-            return failed
-        case kLAErrorUserCancel:
-            return userCancel
-        case kLAErrorUserFallback:
-            return userFallback
-        case kLAErrorSystemCancel:
-            return systemCancel
-        case kLAErrorPasscodeNotSet:
-            return passcodeNotSet
-        case kLAErrorBiometryNotEnrolled:
-            return biometryNotEnrolled
-        case kLAErrorBiometryLockout:
-            return biometryLockedout
-        case kLAErrorAppCancel:
-            return appCancel
-        case kLAErrorInvalidContext:
-            return invalidContext
-        case kLAErrorBiometryNotAvailable:
-            return biometryNotAvailable
-        default:
-           return other
-        }
+    
+    //Solution for "TJAuthErrors has no initializers"
+    init?(error: LAError)  {
+            switch Int32(error.errorCode) {
+
+            case kLAErrorAuthenticationFailed:self = .failed
+            case kLAErrorUserCancel:self = .userCancel
+            case kLAErrorUserFallback:self = .userFallback
+            case kLAErrorSystemCancel: self = .systemCancel
+            case kLAErrorPasscodeNotSet:self = .passcodeNotSet
+            case kLAErrorBiometryNotEnrolled:self = .biometryNotEnrolled
+            case kLAErrorBiometryLockout:self = .biometryLockedout
+            case kLAErrorAppCancel:self = .appCancel
+            case kLAErrorInvalidContext: self = .invalidContext
+            case kLAErrorBiometryNotAvailable: self = .biometryNotAvailable
+            default: self = .other
+            }
     }
     
     // get error message based on type
